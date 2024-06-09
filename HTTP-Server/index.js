@@ -6,9 +6,9 @@ const url = require('url')
 const myServer = http.createServer ((req, res) => {
     // console.log('received req from client')
 
-    const log = `${Date.now()}: ${req.url} New Request Received \n`
+    const log = `${Date.now()}: ${req.url}  ${req.method} New Request Received \n`
     const myUrl = url.parse(req.url, true)
-    console.log(myUrl);
+    // console.log(myUrl);
     console.log(myUrl.pathname);
     fs.appendFile('log.txt',log, (err, data) => {
         switch(/* req.url */ myUrl.pathname) {
