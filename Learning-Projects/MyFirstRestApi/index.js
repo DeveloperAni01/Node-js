@@ -39,11 +39,11 @@ app.get('/users', (req, res) => {
 // REST API
 
 app.get("/api/users", (req, res) => {
-    /* console.log("i am in get route", req.myUserName); */
-    res.setHeader('X-myName', 'Anirban Mondal') // this is a custom header
+     console.log("i am in get route", req.url); 
+   res.setHeader('X-myName', 'Anirban Mondal') // this is a custom header
     //Always add X to the custom headers
-    console.log(req.headers);
-    return res.json(users)
+   console.log(req.headers);
+    return res.json(users) 
 });
 
 /* /* app.get("/api/users/:id", (req, res) => { //:id for id (variable)
@@ -68,9 +68,12 @@ app.delete('/api/users/:id', () =>{
 
 // Another Syntax
 
-app.route('/api/users/:id').get((req, res) => {
+app
+    .route('/api/users/:id')
+    .get((req, res) => {
     const id = Number(req.params.id);
     const user = users.find((user) => user.id === id)
+    if(!user) return res.status(404).json({msg: "user not found!"})
     return (res.json(user))
 })
 .patch((req, res) => {
@@ -90,7 +93,7 @@ app.route('/api/users/:id').get((req, res) => {
     users[id-1]=updatedUser
     
     fs.writeFile('./MOCK_DATA.json',JSON.stringify(users), (err, data) => {
-        return res.json({status: "success", updatedUser})
+        return res.status(202).json({status: "success", updatedUser})
     })
 })
 .delete((req, res) => {
@@ -115,14 +118,14 @@ app.route('/api/users/:id').get((req, res) => {
 //post request 
 app.post('/api/users', (req, res) => {
     const body = req.body
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.Age || !body.job_title) return res.status(400).send(`PLease Fill All Data`)
+    
     // console.log(typeof(body));
     // console.log("body" , body);
-
     //for append in log(MOCK_DATA.json)
-
     users.push({...body, id: users.length + 1})
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
-        return  res.json({status: "sucess", id: users.length })
+        return  res.status(201).json({status: "sucess", id: users.length })
     })
 
 });
