@@ -6,7 +6,24 @@ const users = require("./MOCK_DATA.json")
 const PORT = 3000
 
 //Middleware -- plagin
-app.use(express.urlencoded({extended: false}));
+/* app.use(express.urlencoded({extended: false})); */
+
+app.use((req, res, next) => {
+   /*  console.log(`I am MiddleWare one`);
+    req.myUserName = "Ani"
+    /* return res.json({msg: "hello from middle ware one"}) */ // return response from here
+    fs.appendFile('log.txt', `${Date.now()}: ${req.ip}:${req.method}: ${req.path} \n`,(err, data) => {
+        next(); 
+    })
+  //calling the next function */
+})
+
+/* app.use((req, res, next) => {
+    // console.log("I am MiddleWare two", /* req.myUserName */
+    /* return res.json({msg: "hello from middle ware one"}) */ // return response from here
+//    res.end(`end...`)  
+    // next();
+// }) */
 
 app.get('/users', (req, res) => {
     const html = `
@@ -22,6 +39,7 @@ app.get('/users', (req, res) => {
 // REST API
 
 app.get("/api/users", (req, res) => {
+    /* console.log("i am in get route", req.myUserName); */
     return res.json(users)
 });
 
@@ -31,16 +49,12 @@ app.get("/api/users", (req, res) => {
     return (res.json(user))
 });
 
-
-
 //patch request
-
 app.patch('/api/users/:id', () =>{
   //edit user with id
 
   return res.json({status: 'pending'})
 });
-
 
 app.delete('/api/users/:id', () =>{
     //delete user with id
