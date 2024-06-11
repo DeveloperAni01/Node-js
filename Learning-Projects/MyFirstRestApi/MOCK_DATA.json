@@ -8011,40 +8011,10 @@
     {
         "first_name": "Anirban",
         "last_name": "Mondal",
-        "email": "xyz@gmail.com",
+        "email": "abc@gmail.com",
         "gender": "male",
-        "Age": "21",
-        "job title": "SDE II",
-        "id": 1002
-    },
-    {
-        "first_name": "Ampita",
-        "last_name": "Mondal",
-        "email": "xyz@gmail.com",
-        "gender": "male",
-        "Age": "21",
-        "job title": "SDE II",
-        "id": 1003
-    },
-    {
-        "first_name": "Ampita",
-        "last_name": "Mondal",
-        "email": "xyz@gmail.com",
-        "gender": "male",
-        "Age": "21",
-        "job title": "SDE II",
-        "id": 1004
-    },
-    {
-        "first_name": "Ampita",
-        "last_name": "Mondal",
-        "email": "xyz@gmail.com",
-        "gender": "male",
-        "Age": "21",
-        "job title": "SDE II",
-        "id": 1005
-    },
-    {
-        "id": 1006
+        "Age": "23",
+        "job title": "SDE III",
+        "id": "1003"
     }
 ]

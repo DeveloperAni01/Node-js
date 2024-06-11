@@ -6,7 +6,7 @@ const users = require("./MOCK_DATA.json")
 const PORT = 3000
 
 //Middleware -- plagin
-/* app.use(express.urlencoded({extended: false})); */
+app.use(express.urlencoded({extended: false})); 
 
 app.use((req, res, next) => {
    /*  console.log(`I am MiddleWare one`);
@@ -40,6 +40,9 @@ app.get('/users', (req, res) => {
 
 app.get("/api/users", (req, res) => {
     /* console.log("i am in get route", req.myUserName); */
+    res.setHeader('X-myName', 'Anirban Mondal') // this is a custom header
+    //Always add X to the custom headers
+    console.log(req.headers);
     return res.json(users)
 });
 
@@ -71,12 +74,42 @@ app.route('/api/users/:id').get((req, res) => {
     return (res.json(user))
 })
 .patch((req, res) => {
-    const body = req.body.id
-    console.log('body', body)
-    return res.json({status: "pending"})
+    const id = Number(req.params.id);
+    console.log('id', id)
+    const user = users.find((user) => user.id === id)
+    // console.log(typeof user)
+    const updatedDta = req.body
+    // const updateEmail = updatedDta["email"]
+    // const updateAge = updatedDta["Age"]
+    // console.log( updateAge, updateEmail);
+    // user = ({...user, "email":updateEmail, "Age": updateAge})
+    // console.log(user);
+    // users.push({...users, email: updateEmail, Age: updateAge})
+    const updatedUser = { ...user, ...updatedDta }; //modern syntax of the above 6 lines of code
+    console.log(updatedUser);
+    users[id-1]=updatedUser
+    
+    fs.writeFile('./MOCK_DATA.json',JSON.stringify(users), (err, data) => {
+        return res.json({status: "success", updatedUser})
+    })
 })
 .delete((req, res) => {
-    return res.json({status: "pending"})
+    const  userId = Number(req.params.id)
+    // console.log(userId)
+    const userIndex = users.findIndex((user) => user.id === userId)
+    console.log(userIndex)
+     /* Get the deleted user object using splice. Mind we need to get the object 
+     and not array as returned by splice method, so '[0]' satisfies this requirement.
+      The resulting object is just for the sake of displaying, you may neglect storing it
+       if you don't want to display. */
+
+       const delUser = users.splice(userIndex, 1)[0];
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+
+        return res.json({ status: "success", delUser });
+        
+      });
+    
 })
 
 //post request 
